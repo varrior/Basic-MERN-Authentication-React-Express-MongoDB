@@ -17,6 +17,6 @@ app.use('/api', routes);
 
 app.get('*', (req, res) => res.sendFile(path.join(__dirname + '/public/app/views/index.html')));
 
-mongoose.connect('mongodb://localhost:27017/react-app', err => err?console.log(err):console.log('Successfully connected to MongoDB'));
+mongoose.connect('mongodb://localhost:27017/your-app-name', err => err?console.log(err):console.log('Successfully connected to MongoDB'));
 
 http.listen(port, ()=> console.log(`Server running on ${port}`))
