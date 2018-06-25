@@ -2,3 +2,8 @@
 {
     list-style: none;
 }
+.show-hide-message {
+    -webkit-animation: zoomIn 1s both ease;
+    -moz-animation: zoomIn 1s both ease;
+    animation: zoomIn 1s both ease;
+}

@@ -1,4 +1,9 @@
-body{
+body {
     background: #f6f6f6;
 }
-
+.navbar-nav>li>a, .navbar-brand {
+    line-height: 32px;
+}
+.protectedRoute h1{
+    text-align: center
+}

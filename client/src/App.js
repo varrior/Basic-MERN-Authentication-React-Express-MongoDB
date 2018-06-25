@@ -3,7 +3,8 @@ import Users from './components/users/users';
 import Home from './components/Home/home';
 import Blog from './components/Blog/blog';
 import Login from './components/Login/Login'
-import Register from './components/Register/Register'
+import Register from './components/Register/Register';
+import Activation from './components/Activation/Activation'
 import {
     Navbar, 
     NavItem,
@@ -17,14 +18,36 @@ import {
     Route,
     Link,
     Switch,
-    Redirect
+    Redirect,
 } from 'react-router-dom'
+import { isLoggedIn, checkSession, logOut } from './components/Auth/AuthService'
 
+const Protected = () => <div className="protectedRoute"><h1>Protected page! If you can see this route, means that you are authenticated user :)</h1></div>
 
-class App extends Component {
+const PrivateRoute = ({ component: Component, ...rest }) => (
+    <Route {...rest} render={(props)=> (
+        isLoggedIn()
+        ?<Component {...props}/>
+        :<Redirect to={{
+            pathname: '/home',
+            state: {from: props.location}
+        }}/>
+    )} ></Route>
+)
 
-    loginModalRef = ({handleShow}) => {
-        this.showModal = handleShow
+class App extends React.Component {
+    constructor(props, context){
+        super(props);
+        this.state = {
+            loginSuccessful: false
+        }
+        this.logOutUser = this.logOutUser.bind(this);
+        this.doLogin = this.doLogin.bind(this)
+        console.log(this)
+    }
+    loginModalRef = ({handleShow, state}) => {
+        this.showModal = handleShow;
+        console.log(state)
     };
     onLoginClick = () => {
         this.showModal();
@@ -33,13 +56,36 @@ class App extends Component {
         this.showRegister = handleShowRegister
     };
     onRegisterClick = () => {
+        
         this.showRegister();
+    }
+    componentWillMount(){
+        checkSession();
+        if(isLoggedIn()){
+            this.setState({
+                login: true
+            })
+        } else {
+            this.setState({
+                login: false
+            })
+        }
+    }
+    logOutUser(){
+        logOut();
+        this.setState({
+            login: false
+        })
+    }
+    doLogin(val){
+        this.setState({
+            login: val
+        })
     }
     render(){
         return (
             <Router>
                 <div className="menu-bar">
-                    
                     <Navbar fluid inverse collapseOnSelect>
                         <Navbar.Header>
                             <Navbar.Brand>
@@ -51,24 +97,33 @@ class App extends Component {
                             <Nav>
                                 <NavItem componentClass={Link} href="/users" to="/users">Users</NavItem>
                                 <NavItem componentClass={Link} href="/blog" to="/blog">Blog</NavItem>
+                                <NavItem componentClass={Link} href="/protected" to="/protected">Protected</NavItem>
                             </Nav>
                             <Nav pullRight>
                                 <NavItem>
-                                    <Button onClick={this.onLoginClick}>Login</Button>
+                                    {!this.state.login?
+                                        <Button onClick={this.onLoginClick}>Login</Button>
+                                    :
+                                        <Button onClick={this.logOutUser}>Log out</Button>}
                                 </NavItem>
                                 <NavItem>
-                                    <Button bsStyle="danger" onClick={this.onRegisterClick}>Register</Button>
+                                    {!this.state.login?
+                                        <Button bsStyle="danger" onClick={this.onRegisterClick}>Register</Button>
+                                    : null}
                                 </NavItem>
                             </Nav>
                         </Navbar.Collapse>
                     </Navbar>
-                    <Login ref={this.loginModalRef}></Login>
+                    <Login doLogin={this.doLogin} ref={this.loginModalRef}></Login>
                     <Register ref={this.registerModalRef}></Register>
                     <Switch>
-                        <Route exact path="/" component={Users}/>
+                        <Route exact path="/" component={Users} />
                         <Route path="/users" component={Users}/>
-                        <Route path="/blog" component={Blog}/>
+                        <Route path="/blog" component={Blog} />
                         <Route path="/home" component={Home}/>
+                        <Route exact path="/activate/:id" component={Activation}/>
+                        <PrivateRoute path="/protected" component={Protected}/>
+                        
                         <Route component={Blog}></Route>
                     </Switch>
                 </div>

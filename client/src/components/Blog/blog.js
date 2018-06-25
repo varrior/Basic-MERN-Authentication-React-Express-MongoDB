@@ -4,8 +4,8 @@ import './blog.css';
 class Blog extends Component {
   render() {
     return (
-      <div>
-        <h1>Welcome on blog page!!!</h1>
+      <div className="blogRoute">
+        <h1>Welcome to blog page!!! Another public Route</h1>
       </div>
     );
   }

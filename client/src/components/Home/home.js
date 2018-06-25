@@ -4,8 +4,8 @@ import './home.css';
 class Home extends Component {
   render() {
     return (
-      <div>
-        <h1>Home Page!!!!</h1>
+      <div className="homeRoute">
+        <h1>Home Page!!! Another public Route</h1>
       </div>
     );
   }

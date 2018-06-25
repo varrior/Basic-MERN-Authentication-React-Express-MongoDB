@@ -4,8 +4,8 @@ import './users.css';
 class Users extends Component {
   render() {
     return (
-      <div>
-        <h1>Users page!!!</h1>
+      <div className="usersRoute">
+        <h1>Users Page. This is public Route</h1>
       </div>
     );
   }

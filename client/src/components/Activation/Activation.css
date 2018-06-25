@@ -1,0 +1,13 @@
+img.rabbit
+{
+    max-width: 350px;
+    text-align: center;
+    display: block;
+    margin: 40px auto 10px auto;
+}
+.activeAlert
+{
+    max-width: 600px;
+    margin: 20px auto 0 auto;
+    text-align: center;
+}

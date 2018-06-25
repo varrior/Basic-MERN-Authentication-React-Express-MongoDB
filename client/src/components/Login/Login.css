@@ -2,3 +2,20 @@
 {
     overflow: hidden;
 }
+.loginForm ul, .resendForm ul  
+{
+    list-style: none;
+}
+a.resendLink
+{
+    margin-left: 10px;
+    border: 1px solid rgb(209, 0, 0);
+    background-color: red;
+    padding: 7px 4px;
+    color: #ddd;
+    border-radius: 3px;
+}
+a.resendLink:hover
+{
+    cursor: pointer
+}
