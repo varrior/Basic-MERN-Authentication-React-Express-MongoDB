@@ -15,7 +15,7 @@ app.use(morgan('dev'));
 
 app.use('/api', routes);
 
-app.get('*', (req, res) => res.sendFile(path.join(__dirname + '/public/app/views/index.html')));
+app.get('*', (req, res) => res.sendFile(path.join(__dirname + '/client/public/index.html')));
 
 mongoose.connect('mongodb://localhost:27017/your-app-name', err => err?console.log(err):console.log('Successfully connected to MongoDB'));
 
